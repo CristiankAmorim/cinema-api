@@ -20,7 +20,7 @@ public class MovieController {
         return movieService.showAllMovies();
     }
 
-    @PostMapping
+    @PostMapping()
     public Movie addMovie(@RequestBody Movie movie) {
         return movieService.saveMovieAtList(movie);
     }

@@ -1,16 +1,12 @@
 package cinema.api.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Getter
-@Setter
-@AllArgsConstructor
+@Entity(name = "tb_session")
+@Data
 public class MovieSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +18,4 @@ public class MovieSession {
     @ManyToOne
     private Movie movie;
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-    public Movie getMovie() {
-        return movie;
-    }
 }

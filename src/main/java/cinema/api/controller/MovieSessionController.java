@@ -20,7 +20,7 @@ public class MovieSessionController {
         return sessionService.showAllSessions();
     }
 
-    @PostMapping("/{movieId}")
+    @PostMapping(value = "/{movieId}")
     public MovieSession addSession(@PathVariable Long movieId, @RequestBody MovieSession session) {
         return sessionService.saveNewSession(movieId, session);
     }
