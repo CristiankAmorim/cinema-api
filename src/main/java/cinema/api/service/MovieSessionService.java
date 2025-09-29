@@ -28,4 +28,23 @@ public class MovieSessionService {
         return sessionRepository.save(session);
     }
 
+    public MovieSession updateSession(Long id, MovieSession sessionToChange) {
+        MovieSession session = sessionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
+
+        session.setMovie(sessionToChange.getMovie());
+        session.setRoom(sessionToChange.getRoom());
+        session.setSessionTime(sessionToChange.getSessionTime());
+
+        return sessionRepository.save(session);
+    }
+
+    public void deleSession(Long id) {
+        if(!sessionRepository.existsById(id)) {
+            throw new RuntimeException("Sessão não encontrada");
+        }
+
+        sessionRepository.deleteById(id);
+    }
+
 }

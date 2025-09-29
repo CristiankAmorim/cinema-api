@@ -25,4 +25,14 @@ public class MovieController {
         return movieService.saveMovieAtList(movie);
     }
 
+    @PutMapping("/{id}")
+    public Movie updateMovie(@PathVariable Long id, @RequestBody Movie movie) {
+        return movieService.updateMovie(id, movie);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteMovie(@PathVariable Long id) {
+        movieService.deleteMovie(id);
+    }
+
 }

@@ -24,4 +24,14 @@ public class MovieSessionController {
     public MovieSession addSession(@PathVariable Long movieId, @RequestBody MovieSession session) {
         return sessionService.saveNewSession(movieId, session);
     }
+
+    @PutMapping("/{id}")
+    public MovieSession updateSession(@PathVariable Long id, @RequestBody MovieSession session) {
+        return sessionService.updateSession(id, session);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSession(@PathVariable Long id) {
+        sessionService.deleSession(id);
+    }
 }
