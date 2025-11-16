@@ -15,5 +15,5 @@ public class Movie {
 
     private String title;
     private String gender;
-    private int durationMinutes;
+    private Integer durationMinutes;
 }
