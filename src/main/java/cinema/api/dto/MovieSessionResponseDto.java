@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class MoviSessionResponseDto {
+public class MovieSessionResponseDto {
 
     @JsonProperty(required = true)
     private String room;
