@@ -1,7 +1,7 @@
 package cinema.api.service;
 
 import cinema.api.model.Movie;
-import org.aspectj.weaver.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cinema.api.repository.MovieRepository;
 
@@ -10,7 +10,9 @@ import java.util.Optional;
 
 @Service
 public class MovieService {
-    private final MovieRepository movieRepository;
+
+    @Autowired
+    private  MovieRepository movieRepository;
 
     public MovieService(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;

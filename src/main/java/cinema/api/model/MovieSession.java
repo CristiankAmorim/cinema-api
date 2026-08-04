@@ -1,12 +1,15 @@
 package cinema.api.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity(name = "tb_session")
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class MovieSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
