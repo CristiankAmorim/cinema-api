@@ -70,6 +70,14 @@
             <version>1.6.3</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Source: https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>2.2.50</version>
+            <scope>compile</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
