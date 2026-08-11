@@ -5,7 +5,6 @@ import cinema.api.dto.MovieResponseDto;
 import cinema.api.mapper.MovieMapper;
 import cinema.api.model.Movie;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cinema.api.repository.MovieRepository;
 
@@ -15,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovieService {
 
-    @Autowired
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
@@ -31,15 +29,25 @@ public class MovieService {
 
     }
 
-    public Movie updateMovie(Long id, Movie movieToChange) {
+    public MovieResponseDto updateMovie(Long id, MovieRequestDto requestDto) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
 
-        movie.setTitle(movieToChange.getTitle());
-        movie.setGender(movieToChange.getGender());
-        movie.setDurationMinutes(movieToChange.getDurationMinutes());
+        if(requestDto.getTitle() != null) {
+            movie.setTitle(requestDto.getTitle());
+        }
 
-        return movieRepository.save(movie);
+        if(requestDto.getGender() != null) {
+            movie.setGender(requestDto.getGender());
+        }
+
+        if(requestDto.getDurationMinutes() != null) {
+            movie.setDurationMinutes(requestDto.getDurationMinutes());
+        }
+
+        Movie updateMovie = movieRepository.save(movie);
+
+        return movieMapper.toResponeDto(updateMovie);
     }
 
     public void deleteMovieById(Long id) {
