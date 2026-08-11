@@ -16,5 +16,6 @@ public class MovieRequestDto {
     private String title;
     @JsonProperty(required = true)
     private String gender;
-
+    @JsonProperty(required = true)
+    private Integer durationMinutes;
 }
