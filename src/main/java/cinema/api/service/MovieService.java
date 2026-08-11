@@ -1,25 +1,25 @@
 package cinema.api.service;
 
+import cinema.api.dto.MovieResponseDto;
+import cinema.api.mapper.MovieMapper;
 import cinema.api.model.Movie;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cinema.api.repository.MovieRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MovieService {
 
     @Autowired
-    private  MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
+    private final MovieMapper movieMapper;
 
-    public MovieService(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
-    }
-
-    public List<Movie> showAllMovies() {
-        return movieRepository.findAll();
+    public List<MovieResponseDto> showAllMovies() {
+        return movieMapper.toListResponseDto(movieRepository.findAll());
     }
 
     public Movie saveMovieAtList(Movie movie) {
