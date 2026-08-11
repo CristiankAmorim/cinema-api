@@ -21,6 +21,10 @@ public class MovieService {
         return movieMapper.toListResponseDto(movieRepository.findAll());
     }
 
+    public MovieResponseDto searchMovieByName(String movieName) {
+        return movieMapper.toResponeDto(movieRepository.findByName(movieName));
+    }
+
     public MovieResponseDto saveMovieAtList(MovieRequestDto requestDto) {
         return movieMapper.toResponeDto(
                 movieRepository.save(

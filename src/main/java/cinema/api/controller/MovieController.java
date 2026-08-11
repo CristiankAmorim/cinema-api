@@ -23,6 +23,11 @@ public class MovieController {
         return ResponseEntity.ok(movieService.showAllMovies());
     }
 
+    @GetMapping("/{title}")
+    public ResponseEntity<MovieResponseDto> getMovieByTitle(@RequestParam("title") String title) {
+        return ResponseEntity.ok(movieService.searchMovieByName(title));
+    }
+
     @PostMapping
     public ResponseEntity<MovieResponseDto> addMovie(@RequestBody MovieRequestDto requestDto) {
         return ResponseEntity.ok(movieService.saveMovieAtList(requestDto));
