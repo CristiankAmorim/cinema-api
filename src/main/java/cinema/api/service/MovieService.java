@@ -1,5 +1,6 @@
 package cinema.api.service;
 
+import cinema.api.dto.MovieRequestDto;
 import cinema.api.dto.MovieResponseDto;
 import cinema.api.mapper.MovieMapper;
 import cinema.api.model.Movie;
@@ -22,8 +23,12 @@ public class MovieService {
         return movieMapper.toListResponseDto(movieRepository.findAll());
     }
 
-    public Movie saveMovieAtList(Movie movie) {
-        return movieRepository.save(movie);
+    public MovieResponseDto saveMovieAtList(MovieRequestDto requestDto) {
+        return movieMapper.toResponeDto(
+                movieRepository.save(
+                        movieMapper.toMovie(requestDto)
+                ));
+
     }
 
     public Movie updateMovie(Long id, Movie movieToChange) {

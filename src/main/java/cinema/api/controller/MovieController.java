@@ -1,5 +1,6 @@
 package cinema.api.controller;
 
+import cinema.api.dto.MovieRequestDto;
 import cinema.api.dto.MovieResponseDto;
 import cinema.api.model.Movie;
 import org.apache.coyote.Response;
@@ -24,8 +25,8 @@ public class MovieController {
     }
 
     @PostMapping
-    public Movie addMovie(@RequestBody Movie movie) {
-        return movieService.saveMovieAtList(movie);
+    public ResponseEntity<MovieResponseDto> addMovie(@RequestBody MovieRequestDto requestDto) {
+        return ResponseEntity.ok(movieService.saveMovieAtList(requestDto));
     }
 
     @PutMapping("/{id}")
