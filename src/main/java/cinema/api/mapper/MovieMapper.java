@@ -12,7 +12,6 @@ import java.util.List;
 public interface MovieMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "durationMinutes", ignore = true)
     Movie toMovie(MovieRequestDto dto);
 
     MovieResponseDto toResponeDto(Movie movie);

@@ -1,5 +1,6 @@
 package cinema.api.controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import cinema.api.dto.MovieRequestDto;
 import cinema.api.dto.MovieResponseDto;
 import cinema.api.model.Movie;
