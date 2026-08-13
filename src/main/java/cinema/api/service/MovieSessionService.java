@@ -1,7 +1,11 @@
 package cinema.api.service;
 
+import cinema.api.dto.MovieSessionRequestDto;
+import cinema.api.dto.MovieSessionResponseDto;
+import cinema.api.mapper.MovieSessionMapper;
 import cinema.api.model.Movie;
 import cinema.api.model.MovieSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import cinema.api.repository.MovieRepository;
 import cinema.api.repository.MovieSessionRepository;
@@ -9,37 +13,51 @@ import cinema.api.repository.MovieSessionRepository;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MovieSessionService {
+
     private final MovieSessionRepository sessionRepository;
     private final MovieRepository movieRepository;
+    private final MovieSessionRepository movieSessionRepository;
+    private final MovieSessionMapper movieSessionMapper;
 
-    public MovieSessionService(MovieSessionRepository sessionRepository, MovieRepository movieRepository) {
-        this.sessionRepository = sessionRepository;
-        this.movieRepository = movieRepository;
+    public List<MovieSessionResponseDto> showAllSessions() {
+        return movieSessionMapper.toListResponseDto(sessionRepository.findAll());
     }
 
-    public List<MovieSession> showAllSessions() {
-        return sessionRepository.findAll();
+    public MovieSessionResponseDto saveNewSession(MovieSessionRequestDto requestDto) {
+        Movie movie = movieRepository.findById(requestDto.getMovieId())
+                .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+        MovieSession movieSession = movieSessionMapper.toMovieSession(requestDto);
+        movieSession.setMovie(movie);
+
+        MovieSession savedSession = movieSessionRepository.save(movieSession);
+        return movieSessionMapper.toResponseDto(savedSession);
     }
 
-    public MovieSession saveNewSession(Long movieId, MovieSession session) {
-        Movie movie = movieRepository.findById(movieId).orElseThrow();
-        session.setMovie(movie);
-        return sessionRepository.save(session);
-    }
-
-    public MovieSession updateSession(Long id, MovieSession sessionToChange) {
+    public MovieSessionResponseDto updateSession(Long id, MovieSessionRequestDto requestDto) {
         MovieSession session = sessionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
 
-        session.setMovie(sessionToChange.getMovie());
-        session.setRoom(sessionToChange.getRoom());
-        session.setSessionTime(sessionToChange.getSessionTime());
+        if (requestDto.getSessionTime() != null) {
+            session.setSessionTime(requestDto.getSessionTime());
+        }
+        if(requestDto.getRoom() != null) {
+            session.setRoom(requestDto.getRoom());
+        }
 
-        return sessionRepository.save(session);
+        if(requestDto.getMovieId() != null) {
+            Movie movie = movieRepository.findById(requestDto.getMovieId())
+                    .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+            session.setMovie(movie);
+        }
+
+        MovieSession updateSession = movieSessionRepository.save(session);
+
+        return movieSessionMapper.toResponseDto(updateSession);
     }
 
-    public void deleSession(Long id) {
+    public void deleSessionById(Long id) {
         if(!sessionRepository.existsById(id)) {
             throw new RuntimeException("Sessão não encontrada");
         }

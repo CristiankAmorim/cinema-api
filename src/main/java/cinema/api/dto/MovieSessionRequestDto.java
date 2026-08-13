@@ -18,5 +18,6 @@ public class MovieSessionRequestDto {
     private String room;
     @JsonProperty(required = true)
     private LocalDateTime sessionTime;
+    private Long movieId;
 
 }

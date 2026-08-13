@@ -15,7 +15,7 @@ public interface MovieSessionMapper {
     @Mapping(target = "movie", ignore = true)
     MovieSession toMovieSession(MovieSessionRequestDto dto);
 
-    MovieSessionResponseDto toResppnseDto(MovieSession movieSession);
+    MovieSessionResponseDto toResponseDto(MovieSession movieSession);
 
-    List<MovieSession> toListResponseDto(List<MovieSession> sessions);
+    List<MovieSessionResponseDto> toListResponseDto(List<MovieSession> sessions);
 }
