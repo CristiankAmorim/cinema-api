@@ -7,6 +7,7 @@ import cinema.api.model.Movie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import cinema.api.repository.MovieRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,14 +18,17 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
+    @Transactional(readOnly = true)
     public List<MovieResponseDto> showAllMovies() {
         return movieMapper.toListResponseDto(movieRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public MovieResponseDto searchMovieByName(String movieTitle) {
         return movieMapper.toResponeDto(movieRepository.findByTitle(movieTitle));
     }
 
+    @Transactional
     public MovieResponseDto saveMovieAtList(MovieRequestDto requestDto) {
         return movieMapper.toResponeDto(
                 movieRepository.save(
@@ -33,6 +37,7 @@ public class MovieService {
 
     }
 
+    @Transactional
     public MovieResponseDto updateMovie(Long id, MovieRequestDto requestDto) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
@@ -54,6 +59,7 @@ public class MovieService {
         return movieMapper.toResponeDto(updateMovie);
     }
 
+    @Transactional
     public void deleteMovieById(Long id) {
         if(!movieRepository.existsById(id)) {
             throw new RuntimeException("Filme não encontrado");
