@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import cinema.api.repository.MovieRepository;
 import cinema.api.repository.MovieSessionRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,10 +22,12 @@ public class MovieSessionService {
     private final MovieSessionRepository movieSessionRepository;
     private final MovieSessionMapper movieSessionMapper;
 
+    @Transactional(readOnly = true)
     public List<MovieSessionResponseDto> showAllSessions() {
         return movieSessionMapper.toListResponseDto(sessionRepository.findAll());
     }
 
+    @Transactional
     public MovieSessionResponseDto saveNewSession(MovieSessionRequestDto requestDto) {
         Movie movie = movieRepository.findById(requestDto.getMovieId())
                 .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
@@ -35,6 +38,7 @@ public class MovieSessionService {
         return movieSessionMapper.toResponseDto(savedSession);
     }
 
+    @Transactional
     public MovieSessionResponseDto updateSession(Long id, MovieSessionRequestDto requestDto) {
         MovieSession session = sessionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
@@ -57,6 +61,7 @@ public class MovieSessionService {
         return movieSessionMapper.toResponseDto(updateSession);
     }
 
+    @Transactional
     public void deleSessionById(Long id) {
         if(!sessionRepository.existsById(id)) {
             throw new RuntimeException("Sessão não encontrada");
