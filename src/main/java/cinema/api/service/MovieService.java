@@ -30,10 +30,19 @@ public class MovieService {
 
     @Transactional
     public MovieResponseDto saveMovieAtList(MovieRequestDto requestDto) {
-        return movieMapper.toResponeDto(
-                movieRepository.save(
-                        movieMapper.toMovie(requestDto)
-                ));
+
+        String title = requestDto.getTitle().trim();
+
+        if(movieRepository.existsByTitleIgnoreCase(title)) {
+            throw new RuntimeException("O filme já foi adicionado à lista");
+        }
+
+        Movie movieEntity = movieMapper.toMovie(requestDto);
+        movieEntity.setTitle(title);
+
+        Movie savedMovie = movieRepository.save(movieEntity);
+
+        return movieMapper.toResponeDto(savedMovie);
 
     }
 
